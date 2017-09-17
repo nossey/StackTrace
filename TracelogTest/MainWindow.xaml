@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TracelogTest.ViewModel"
-        xmlns:c="clr-namespace:TracelogTest.Converter"
         xmlns:local="clr-namespace:TracelogTest"
         mc:Ignorable="d"
         Title="TraceLog" Height="350" Width="525"
@@ -14,7 +13,7 @@
         <vm:TracelogViewModel></vm:TracelogViewModel>
     </Window.DataContext>
     <Window.Resources>
-        <c:SingleTraceConverter x:Key="SingleTraceConverter"></c:SingleTraceConverter>
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
 
     <Grid ShowGridLines="True">
@@ -31,7 +30,7 @@
             <ListBox ItemsSource="{Binding TraceLogList}" Background="Black">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                        <TextBlock Visibility="{Binding Visibility}" Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
+                        <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

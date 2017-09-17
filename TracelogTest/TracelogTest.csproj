@@ -74,7 +74,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Converter\SingleTraceConverter.cs" />
     <Compile Include="Model\Command.cs" />
     <Compile Include="Model\SingleTrace.cs" />
     <Compile Include="Model\VisibleTraceType.cs" />

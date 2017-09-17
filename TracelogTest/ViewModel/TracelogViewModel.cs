@@ -59,14 +59,6 @@ namespace TracelogTest.ViewModel
             }
         }
 
-        public Visibility Visibility
-        {
-            get
-            {
-                return (!Visible) ? Visibility.Collapsed : Visibility.Visible;
-            }
-        }
-
          SingleTrace Model { get; set; }
 
         #endregion
@@ -80,10 +72,7 @@ namespace TracelogTest.ViewModel
             {
                 (sender, e)=>
                 {
-                    if (e.PropertyName != "Visible")
-                        RaisePropertyChanged(e.PropertyName);
-                    else
-                        RaisePropertyChanged(nameof(Visibility));
+                      RaisePropertyChanged(e.PropertyName);
                 }
             };
             CompositeDisposable.Add(listener);
