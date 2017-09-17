@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TracelogTest.ViewModel;
 
 namespace TracelogTest
 {
@@ -23,6 +24,14 @@ namespace TracelogTest
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in e.RemovedItems.Cast<VisibleTraceTypeViewModel>())
+                item.IsSelected = false;
+            foreach (var item in e.AddedItems.Cast<VisibleTraceTypeViewModel>())
+                item.IsSelected = true;
         }
     }
 }

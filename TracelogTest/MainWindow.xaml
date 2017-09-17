@@ -21,6 +21,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -30,7 +31,7 @@
             <ListBox ItemsSource="{Binding TraceLogList}" Background="Black">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                        <TextBlock Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
+                        <TextBlock Visibility="{Binding Visibility}" Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
@@ -39,6 +40,16 @@
         <StackPanel Grid.Column="1" Grid.Row="0">
             <Button ToolTip="Hello"  Height="30" Command="{Binding AddTraceTest}">Add message</Button>
             <TextBlock Foreground="White" Background="Black">Hello</TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+            <ListView SelectionChanged="ListView_SelectionChanged" SelectionMode="Single" Background="Black" Foreground="White" ItemsSource="{Binding VisibilityList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:VisibleTraceTypeViewModel}">
+                        <TextBlock  Foreground="White" Background="Black" Text="{Binding DisplayType}"></TextBlock>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackPanel>
     </Grid>
 </Window>

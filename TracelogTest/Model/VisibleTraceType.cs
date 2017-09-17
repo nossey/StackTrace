@@ -7,57 +7,44 @@ using Livet;
 
 namespace TracelogTest.Model
 {
-    public class SingleTrace : NotificationObject
+    public class VisibleTraceType : NotificationObject
     {
         #region Declaration
-
-        public enum TraceType 
-        {
-            All,
-            Info,
-            Warning,
-            Error,
-        }
-
         #endregion
 
         #region Fields
 
-        string _Text;
-        bool _Visible = true;
+        bool _IsSelected = false;
+        SingleTrace.TraceType _Type;
 
         #endregion
 
         #region Properties
 
-        public string Text 
+        public SingleTrace.TraceType Type
         {
             get
             {
-                return _Text;
+                return _Type;
             }
-            set
+            private set
             {
-                if (_Text == value)
-                    return;
-                _Text = value;
+                _Type = value;
                 RaisePropertyChanged();
             }
         }
 
-        public TraceType Type { get; set; }
-
-        public bool Visible
+        public bool IsSelected
         {
             get
             {
-                return _Visible;
+                return _IsSelected;
             }
             set
             {
-                if (_Visible == value)
+                if (_IsSelected == value)
                     return;
-                _Visible = value;
+                _IsSelected = value;
                 RaisePropertyChanged();
             }
         }
@@ -65,6 +52,12 @@ namespace TracelogTest.Model
         #endregion
 
         #region Public methods
+        
+        public VisibleTraceType(SingleTrace.TraceType type)
+        {
+            Type = type;
+        }
+
         #endregion
 
         #region Private methods

@@ -77,6 +77,7 @@
     <Compile Include="Converter\SingleTraceConverter.cs" />
     <Compile Include="Model\Command.cs" />
     <Compile Include="Model\SingleTrace.cs" />
+    <Compile Include="Model\VisibleTraceType.cs" />
     <Compile Include="ViewModel\ColorDefinition.cs" />
     <Compile Include="ViewModel\TracelogViewModel.cs" />
     <Page Include="MainWindow.xaml">

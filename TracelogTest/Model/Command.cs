@@ -9,6 +9,9 @@ namespace TracelogTest.Model
     public static class Command
     {
         #region Declaration
+
+        static int VisibleTraceLineCount = 10;
+
         #endregion
 
         #region Fields
@@ -51,6 +54,7 @@ namespace TracelogTest.Model
                 }
             }
 
+            // Remove first 2 lines
             n = 0;
             int count = 0;
             foreach (var c in stackTrace)
@@ -59,12 +63,25 @@ namespace TracelogTest.Model
                     n++;
                 count++;
                 if (n == 2)
+                {
+                    stackTrace = stackTrace.Remove(0, count);
                     break;
+                }
             }
 
-            return stackTrace.Remove(0, count);
-        }
+            n = 0;
+            count = 0;
+            foreach (var c in stackTrace)
+            {
+                if (c == '\n')
+                    n++;
+                count++;
+                if (n >= VisibleTraceLineCount)
+                    return stackTrace.Remove(count);
+            }
 
+            return stackTrace;
+        }
 
         #endregion
     }

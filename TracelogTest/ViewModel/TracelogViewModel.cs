@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Media;
 using Livet;
 using Livet.Commands;
@@ -49,6 +50,22 @@ namespace TracelogTest.ViewModel
                 return new SolidColorBrush(Colors.White);
             }
         }
+        
+        public bool Visible
+        {
+            get
+            {
+                return Model.Visible;
+            }
+        }
+
+        public Visibility Visibility
+        {
+            get
+            {
+                return (!Visible) ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
 
          SingleTrace Model { get; set; }
 
@@ -57,6 +74,69 @@ namespace TracelogTest.ViewModel
         #region Public methods
 
         public SingleTraceViewModel(SingleTrace model)
+        {
+            Model = model;
+            var listener = new PropertyChangedEventListener(model)
+            {
+                (sender, e)=>
+                {
+                    if (e.PropertyName != "Visible")
+                        RaisePropertyChanged(e.PropertyName);
+                    else
+                        RaisePropertyChanged(nameof(Visibility));
+                }
+            };
+            CompositeDisposable.Add(listener);
+        }
+
+        #endregion
+
+        #region Private methods
+        #endregion
+    }
+
+
+    public class VisibleTraceTypeViewModel : Livet.ViewModel
+    {
+        #region Declaration
+        #endregion
+
+        #region Fields
+        #endregion
+
+        #region Properties
+
+        public bool IsSelected
+        {
+            get
+            {
+                return Model.IsSelected;
+            }
+            set
+            {
+                if (Model.IsSelected == value)
+                    return;
+                Model.IsSelected = value;
+                if (value)
+                    Workspace.Instance.CurrentVisibleType = Model.Type;
+            }
+        }
+
+        public string DisplayType
+        {
+            get
+            {
+                return Model.Type.ToString();
+            }
+        }
+
+        VisibleTraceType Model;
+
+        #endregion
+
+        #region Public methods
+
+        public VisibleTraceTypeViewModel(VisibleTraceType model)
         {
             Model = model;
             var listener = new PropertyChangedEventListener(model)
@@ -87,6 +167,8 @@ namespace TracelogTest.ViewModel
 
         public ReadOnlyDispatcherCollection<SingleTraceViewModel> TraceLogList { get; private set; }
 
+        public ReadOnlyDispatcherCollection<VisibleTraceTypeViewModel> VisibilityList { get; private set; }
+
         public ViewModelCommand AddTraceTest { get; } = new ViewModelCommand(() =>
         {
             AddTestMessage();
@@ -103,6 +185,13 @@ namespace TracelogTest.ViewModel
                 (m) => new SingleTraceViewModel(m),
                 DispatcherHelper.UIDispatcher);
             CompositeDisposable.Add(TraceLogList);
+
+            VisibilityList = ViewModelHelper.CreateReadOnlyDispatcherCollection(
+                Workspace.Instance.VisibleTraceTypes,
+                (m) => new VisibleTraceTypeViewModel(m),
+                DispatcherHelper.UIDispatcher
+                );
+            CompositeDisposable.Add(VisibilityList);
         }
 
         #endregion
