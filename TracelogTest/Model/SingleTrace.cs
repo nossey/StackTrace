@@ -10,12 +10,19 @@ namespace TracelogTest.Model
     public class SingleTrace : NotificationObject
     {
         #region Declaration
+
+        public enum TraceType 
+        {
+            Info,
+            Warning,
+            Error,
+        }
+
         #endregion
 
         #region Fields
 
         string _Text;
-
 
         #endregion
 
@@ -35,6 +42,8 @@ namespace TracelogTest.Model
                 RaisePropertyChanged();
             }
         }
+
+        public TraceType Type { get; set; }
 
         #endregion
 

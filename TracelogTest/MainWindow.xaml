@@ -23,16 +23,18 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding TraceLogList}" Background="Black">
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                    <TextBlock ToolTip="Hello" Foreground="White" Text="{Binding Trace}"></TextBlock>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <ScrollViewer Grid.Column="0" Grid.Row="0">
+            <ListBox ItemsSource="{Binding TraceLogList}" Background="Black">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
+                        <TextBlock Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
 
         <StackPanel Grid.Column="1" Grid.Row="0">
             <Button ToolTip="Hello"  Height="30" Command="{Binding AddTraceTest}">Add message</Button>

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 using Livet;
 using Livet.Commands;
 using Livet.EventListeners;
 using TracelogTest.Model;
 using static TracelogTest.Model.Command;
+using static TracelogTest.ViewModel.ColorDefinition;
 
 namespace TracelogTest.ViewModel
 {
@@ -19,10 +21,6 @@ namespace TracelogTest.ViewModel
         #endregion
 
         #region Fields
-
-        SingleTrace _Model;
-
-
         #endregion
 
         #region Properties
@@ -35,18 +33,24 @@ namespace TracelogTest.ViewModel
             }
         }
 
-        SingleTrace Model
+        public SolidColorBrush TraceColor
         {
             get
             {
-                return _Model;
-            }
-            set
-            {
-                _Model = value;
+                switch (Model.Type)
+                {
+                    case SingleTrace.TraceType.Info:
+                        return InfoColor;
+                    case SingleTrace.TraceType.Warning:
+                        return WarningColor;
+                    case SingleTrace.TraceType.Error:
+                        return ErrorColor;
+                }
+                return new SolidColorBrush(Colors.White);
             }
         }
 
+         SingleTrace Model { get; set; }
 
         #endregion
 
@@ -85,7 +89,7 @@ namespace TracelogTest.ViewModel
 
         public ViewModelCommand AddTraceTest { get; } = new ViewModelCommand(() =>
         {
-            AddMessage();
+            AddTestMessage();
         });
 
         #endregion
