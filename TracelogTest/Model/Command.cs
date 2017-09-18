@@ -3,15 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace TracelogTest.Model
 {
     public static class Command
     {
         #region Declaration
-
-        static int VisibleTraceLineCount = 10;
-
         #endregion
 
         #region Fields
@@ -25,14 +23,25 @@ namespace TracelogTest.Model
         public static void AddTestMessage()
         {
             var trace = new SingleTrace();
-            trace.Text = FormatStackTrace(Environment.StackTrace);
-            trace.Type = SingleTrace.TraceType.Error;
+            trace.Text = "test";
+            trace.Type = SingleTrace.TraceType.Warning;
+            trace.Stacktrace = FormatStackTrace(Environment.StackTrace); 
             Workspace.Instance?.AddTrace(trace);
         }
 
         public static void ClearAllTraces()
         {
             Workspace.Instance?.Traces.Clear();
+        }
+
+        public static void SetTrace2Clipboard()
+        {
+            Workspace.Instance?.SetTrace2Clipboard();
+        }
+
+        public static void SetStacktrace2Clipboard()
+        {
+            Workspace.Instance?.SetStacktrace2Clipboard();
         }
 
         #endregion
@@ -64,20 +73,9 @@ namespace TracelogTest.Model
                 count++;
                 if (n == 2)
                 {
-                    stackTrace = stackTrace.Remove(0, count);
+                    return stackTrace.Remove(0, count);
                     break;
                 }
-            }
-
-            n = 0;
-            count = 0;
-            foreach (var c in stackTrace)
-            {
-                if (c == '\n')
-                    n++;
-                count++;
-                if (n >= VisibleTraceLineCount)
-                    return stackTrace.Remove(count);
             }
 
             return stackTrace;

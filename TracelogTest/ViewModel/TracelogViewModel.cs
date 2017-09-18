@@ -59,7 +59,44 @@ namespace TracelogTest.ViewModel
             }
         }
 
-         SingleTrace Model { get; set; }
+        public string Stacktrace
+        {
+            get
+            {
+                return Model.Stacktrace;
+            }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return Model.IsSelected;
+            }
+            set
+            {
+                if (Model.IsSelected == value)
+                    return;
+                Model.IsSelected = value;
+            }
+        }
+
+        SingleTrace Model { get; set; }
+
+        public ViewModelCommand Copy { get; } = new ViewModelCommand(() =>
+        {
+            SetTrace2Clipboard();
+        });
+
+        public ViewModelCommand CopyStacktrace { get; } = new ViewModelCommand(() =>
+        {
+            SetStacktrace2Clipboard();
+        });
+
+        public ViewModelCommand Clear { get; } = new ViewModelCommand(() =>
+        {
+            ClearAllTraces();
+        });
 
         #endregion
 

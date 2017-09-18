@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Windows.Forms;
 using Livet;
 
 namespace TracelogTest.Model
@@ -66,6 +67,17 @@ namespace TracelogTest.Model
             Traces.Add(trace);
         }
 
+        public void SetTrace2Clipboard()
+        {
+            var selctedOne = Traces.FirstOrDefault(t => t.IsSelected);
+            Clipboard.SetText(selctedOne.Text);
+        }
+
+        public void SetStacktrace2Clipboard()
+        {
+            var selctedOne = Traces.FirstOrDefault(t => t.IsSelected);
+            Clipboard.SetText(selctedOne.Stacktrace);
+        }
         #endregion
 
         #region Private methods

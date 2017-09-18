@@ -25,6 +25,8 @@ namespace TracelogTest.Model
 
         string _Text;
         bool _Visible = true;
+        string _Stacktrace;
+        bool _IsSelected = false;
 
         #endregion
 
@@ -58,6 +60,36 @@ namespace TracelogTest.Model
                 if (_Visible == value)
                     return;
                 _Visible = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string Stacktrace
+        {
+            get
+            {
+                return _Stacktrace;
+            }
+            set
+            {
+                if (_Stacktrace == value)
+                    return;
+                _Stacktrace = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                return _IsSelected;
+            }
+            set
+            {
+                if (_IsSelected == value)
+                    return;
+                _IsSelected = value;
                 RaisePropertyChanged();
             }
         }

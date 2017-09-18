@@ -14,41 +14,52 @@
     </Window.DataContext>
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
+        <ContextMenu x:Key="TraceContext">
+            <MenuItem Header="Copy" Command="{Binding Copy}"></MenuItem>
+            <MenuItem Header="Copy Stacktrace" Command="{Binding CopyStacktrace}"></MenuItem>
+            <MenuItem Header="Clear" Command="{Binding Clear}"></MenuItem>
+        </ContextMenu>
     </Window.Resources>
 
     <Grid ShowGridLines="True">
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Column="0" Grid.Row="0">
-            <ListBox ItemsSource="{Binding TraceLogList}" Background="Black">
-                <ListBox.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                        <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </ScrollViewer>
-
-        <StackPanel Grid.Column="1" Grid.Row="0">
-            <Button ToolTip="Hello"  Height="30" Command="{Binding AddTraceTest}">Add message</Button>
-            <TextBlock Foreground="White" Background="Black">Hello</TextBlock>
+        <StackPanel Background="Gray" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="2, 5, 2, 5 ">
+            <Button  Height="30" Command="{Binding AddTraceTest}" Margin="5, 5, 5, 5">Add message</Button>
         </StackPanel>
 
-        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
-            <ListView SelectionChanged="ListView_SelectionChanged" SelectionMode="Single" Background="Black" Foreground="White" ItemsSource="{Binding VisibilityList}">
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <ListView ToolTip="HELLO" SelectionChanged="ListView_SelectionChanged" SelectionMode="Single" Background="Black" Foreground="White" ItemsSource="{Binding VisibilityList}">
                 <ListView.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:VisibleTraceTypeViewModel}">
-                        <TextBlock  Foreground="White" Background="Black" Text="{Binding DisplayType}"></TextBlock>
+                        <TextBlock  Foreground="White" Background="Black" Text="{Binding DisplayType}">
+                        </TextBlock>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <ScrollViewer Width="400">
+                <ListBox ItemsSource="{Binding TraceLogList}" Background="Black" SelectionChanged="ListBox_SelectionChanged">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
+                            <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="ToolTip" Value="{Binding Stacktrace}"></Setter>
+                            <Setter Property="ContextMenu" Value="{StaticResource TraceContext}"></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </Window>

@@ -33,5 +33,13 @@ namespace TracelogTest
             foreach (var item in e.AddedItems.Cast<VisibleTraceTypeViewModel>())
                 item.IsSelected = true;
         }
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+             foreach (var item in e.RemovedItems.Cast<SingleTraceViewModel>())
+                item.IsSelected = false;
+            foreach (var item in e.AddedItems.Cast<SingleTraceViewModel>())
+                item.IsSelected = true;
+       }
     }
 }
