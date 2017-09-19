@@ -18,6 +18,7 @@ namespace TracelogTest.Model
 
         static Workspace _Instance = new Workspace();
         SingleTrace.TraceType _VisibleType = SingleTrace.TraceType.All;
+        string _SearchText = string.Empty;
 
         #endregion
 
@@ -46,11 +47,24 @@ namespace TracelogTest.Model
                     return;
                 _VisibleType = value;
                 RaisePropertyChanged();
+                UpdateTraceVisibility();
+                RaisePropertyChanged(nameof(Traces));
+            }
+        }
 
-                foreach (var trace in Traces)
-                {
-                    trace.Visible = trace.Type == _VisibleType || _VisibleType == SingleTrace.TraceType.All;
-                }
+        public string SearchText
+        {
+            get
+            {
+                return _SearchText;
+            }
+            set
+            {
+                if (_SearchText == value)
+                    return;
+                _SearchText = value;
+                RaisePropertyChanged();
+                UpdateTraceVisibility();
                 RaisePropertyChanged(nameof(Traces));
             }
         }
@@ -70,13 +84,15 @@ namespace TracelogTest.Model
         public void SetTrace2Clipboard()
         {
             var selctedOne = Traces.FirstOrDefault(t => t.IsSelected);
-            Clipboard.SetText(selctedOne.Text);
+            if (!string.IsNullOrEmpty(selctedOne.Text))
+                Clipboard.SetText(selctedOne.Text);
         }
 
         public void SetStacktrace2Clipboard()
         {
             var selctedOne = Traces.FirstOrDefault(t => t.IsSelected);
-            Clipboard.SetText(selctedOne.Stacktrace);
+            if (!string.IsNullOrEmpty(selctedOne.Stacktrace))
+                Clipboard.SetText(selctedOne.Stacktrace);
         }
         #endregion
 
@@ -99,6 +115,16 @@ namespace TracelogTest.Model
             trace2.Type = SingleTrace.TraceType.Info;
             Traces.Add(trace1);
             Traces.Add(trace2);
+        }
+
+        void UpdateTraceVisibility()
+        {
+            foreach (var trace in Traces)
+            {
+                bool SearchTextHit = (!string.IsNullOrEmpty(SearchText)) ? trace.Text.Contains(SearchText) : true;
+                bool TypeMatched = trace.Type == CurrentVisibleType || CurrentVisibleType == SingleTrace.TraceType.All;
+                trace.Visible = SearchTextHit && TypeMatched;
+            }
         }
 
         #endregion

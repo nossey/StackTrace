@@ -23,9 +23,9 @@ namespace TracelogTest.Model
 
         #region Fields
 
-        string _Text;
+        string _Text = string.Empty;
         bool _Visible = true;
-        string _Stacktrace;
+        string _Stacktrace = string.Empty;
         bool _IsSelected = false;
 
         #endregion

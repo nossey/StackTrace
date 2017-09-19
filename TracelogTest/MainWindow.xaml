@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:TracelogTest.ViewModel"
+        xmlns:b="clr-namespace:TracelogTest.View.Behavior"
         xmlns:local="clr-namespace:TracelogTest"
         mc:Ignorable="d"
         Title="TraceLog" Height="350" Width="525"
-        Background="Black"
-        >
+        Background="Black">
     <Window.DataContext>
         <vm:TracelogViewModel></vm:TracelogViewModel>
     </Window.DataContext>
@@ -21,45 +21,48 @@
         </ContextMenu>
     </Window.Resources>
 
-    <Grid ShowGridLines="True">
+    <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <StackPanel Background="Gray" Grid.Column="0" Grid.Row="0" Orientation="Horizontal" Margin="2, 5, 2, 5 ">
+        <StackPanel Background="Gray" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal">
             <Button  Height="30" Command="{Binding AddTraceTest}" Margin="5, 5, 5, 5">Add message</Button>
         </StackPanel>
 
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
-            <ListView ToolTip="HELLO" SelectionChanged="ListView_SelectionChanged" SelectionMode="Single" Background="Black" Foreground="White" ItemsSource="{Binding VisibilityList}">
-                <ListView.ItemTemplate>
-                    <DataTemplate DataType="{x:Type vm:VisibleTraceTypeViewModel}">
-                        <TextBlock  Foreground="White" Background="Black" Text="{Binding DisplayType}">
+        <TextBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Foreground="White" Background="Black" Text="{Binding SearchTextVM.SearchText, UpdateSourceTrigger=PropertyChanged}" b:PlaceholderBehavior.PlaceholderText="Search text here..." CaretBrush="White">
+        </TextBox>
+
+        <ListView Width="Auto" Grid.Column="0" Grid.Row="2" SelectionChanged="ListView_SelectionChanged" SelectionMode="Single" Background="Black" Foreground="White" ItemsSource="{Binding VisibilityList}">
+            <ListView.ItemTemplate>
+                <DataTemplate DataType="{x:Type vm:VisibleTraceTypeViewModel}">
+                    <TextBlock  Foreground="White" Background="Black" Text="{Binding DisplayType}">
+                    </TextBlock>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ScrollViewer Grid.Column="1" Grid.Row="2">
+            <ListBox ItemsSource="{Binding TraceLogList}" Background="Black" SelectionChanged="ListBox_SelectionChanged">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
+                        <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}">
                         </TextBlock>
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-            <ScrollViewer Width="400">
-                <ListBox ItemsSource="{Binding TraceLogList}" Background="Black" SelectionChanged="ListBox_SelectionChanged">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                            <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}">
-                            </TextBlock>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="ToolTip" Value="{Binding Stacktrace}"></Setter>
-                            <Setter Property="ContextMenu" Value="{StaticResource TraceContext}"></Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </ScrollViewer>
-        </StackPanel>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="ToolTip" Value="{Binding Stacktrace}"></Setter>
+                        <Setter Property="ContextMenu" Value="{StaticResource TraceContext}"></Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </ScrollViewer>
     </Grid>
 </Window>

@@ -79,6 +79,7 @@
     <Compile Include="Model\VisibleTraceType.cs" />
     <Compile Include="ViewModel\ColorDefinition.cs" />
     <Compile Include="ViewModel\TracelogViewModel.cs" />
+    <Compile Include="View\Behavior\PlaceholderBehavior.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -91,7 +92,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Resources\Dictionary.xaml">
+    <Page Include="View\Resources\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

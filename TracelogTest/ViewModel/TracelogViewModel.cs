@@ -181,6 +181,51 @@ namespace TracelogTest.ViewModel
         #endregion
     }
 
+    public class SearchTextViewModel : Livet.ViewModel 
+    {
+        #region Declaration
+        #endregion
+
+        #region Fields
+        #endregion
+
+        #region Properties
+
+        public string SearchText
+        {
+            get
+            {
+                return Workspace.Instance?.SearchText;
+            }
+            set
+            {
+                if (Workspace.Instance.SearchText != value)
+                    Workspace.Instance.SearchText = value;
+            }
+        }
+
+        #endregion
+
+        #region Public methods
+
+        public SearchTextViewModel()
+        {
+            var listener = new PropertyChangedEventListener(Workspace.Instance)
+            {
+                (sender, e)=>
+                {
+                      RaisePropertyChanged(e.PropertyName);
+                }
+            };
+            CompositeDisposable.Add(listener);
+        }
+
+        #endregion
+
+        #region Private methods
+        #endregion
+    }
+
     public class TracelogViewModel : Livet.ViewModel
     {
         #region Declaration
@@ -194,6 +239,8 @@ namespace TracelogTest.ViewModel
         public ReadOnlyDispatcherCollection<SingleTraceViewModel> TraceLogList { get; private set; }
 
         public ReadOnlyDispatcherCollection<VisibleTraceTypeViewModel> VisibilityList { get; private set; }
+
+        public SearchTextViewModel SearchTextVM { get; private set; } = new SearchTextViewModel();
 
         public ViewModelCommand AddTraceTest { get; } = new ViewModelCommand(() =>
         {
@@ -218,6 +265,8 @@ namespace TracelogTest.ViewModel
                 DispatcherHelper.UIDispatcher
                 );
             CompositeDisposable.Add(VisibilityList);
+
+            CompositeDisposable.Add(SearchTextVM);
         }
 
         #endregion

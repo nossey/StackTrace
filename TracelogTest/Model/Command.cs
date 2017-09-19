@@ -74,7 +74,6 @@ namespace TracelogTest.Model
                 if (n == 2)
                 {
                     return stackTrace.Remove(0, count);
-                    break;
                 }
             }
 
