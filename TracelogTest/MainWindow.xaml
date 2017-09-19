@@ -55,7 +55,7 @@
             <ListBox ItemsSource="{Binding TraceLogList}" Background="Black" SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                        <TextBlock Visibility="{Binding Visible, Converter={StaticResource BoolToVisibility}}" Foreground="{Binding TraceColor}" Text="{Binding Trace}">
+                        <TextBlock Foreground="{Binding TraceColor}" Text="{Binding Trace}">
                         </TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -63,6 +63,7 @@
                     <Style TargetType="ListBoxItem">
                         <Setter Property="ToolTip" Value="{Binding Stacktrace}"></Setter>
                         <Setter Property="ContextMenu" Value="{StaticResource TraceContext}"></Setter>
+                        <Setter Property="Visibility" Value="{Binding Visible, Converter={StaticResource BoolToVisibility}}"></Setter>
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
