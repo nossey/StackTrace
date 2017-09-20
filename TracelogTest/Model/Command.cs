@@ -20,10 +20,28 @@ namespace TracelogTest.Model
 
         #region Public methods
 
-        public static void AddTrace(SingleTrace trace)
+        public static void Info(string info)
         {
-            trace.Stacktrace = FormatStackTrace(Environment.StackTrace); 
-            Workspace.Instance?.AddTrace(trace);
+            var trace = new SingleTrace();
+            trace.Type = SingleTrace.TraceType.Info;
+            trace.Text = info;
+            AddTrace(trace);
+        }
+
+        public static void Warning(string warning)
+        {
+            var trace = new SingleTrace();
+            trace.Type = SingleTrace.TraceType.Warning;
+            trace.Text = warning;
+            AddTrace(trace);
+        }
+
+        public static void Error(string error)
+        {
+            var trace = new SingleTrace();
+            trace.Type = SingleTrace.TraceType.Error;
+            trace.Text = error;
+            AddTrace(trace);
         }
 
         public static void ClearAllTraces()
@@ -44,6 +62,12 @@ namespace TracelogTest.Model
         #endregion
 
         #region Private methods
+
+        static void AddTrace(SingleTrace trace)
+        {
+            trace.Stacktrace = FormatStackTrace(Environment.StackTrace); 
+            Workspace.Instance?.AddTrace(trace);
+        }
 
         static string FormatStackTrace(string stackTrace)
         {

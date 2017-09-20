@@ -5,7 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TracelogTest.Model;
 using Livet;
+using Livet.Commands;
 using Livet.EventListeners;
+using static TracelogTest.Model.Command;
 
 namespace TracelogTest.ViewModel
 {
@@ -16,6 +18,8 @@ namespace TracelogTest.ViewModel
         #endregion
 
         #region Fields
+
+
         #endregion
 
         #region Properties
@@ -43,6 +47,7 @@ namespace TracelogTest.ViewModel
                 Model.IsSelected = value;
             }
         }
+
 
         #endregion
 
@@ -73,6 +78,9 @@ namespace TracelogTest.ViewModel
         #endregion
 
         #region Fields
+
+        ViewModelCommand _AddTrace;
+
         #endregion
 
         #region Properties
@@ -122,6 +130,28 @@ namespace TracelogTest.ViewModel
             }
         }
 
+        public ViewModelCommand DebugAddTrace
+        {
+            get
+            {
+                if (_AddTrace == null)
+                    _AddTrace = new ViewModelCommand(() =>{
+                        switch (Model.SelectedType)
+                        {
+                            case SingleTrace.TraceType.Info:
+                                Info(Model.DebugMessage);
+                                break;
+                            case SingleTrace.TraceType.Warning:
+                                Warning(Model.DebugMessage);
+                                break; 
+                            case SingleTrace.TraceType.Error:
+                                Error(Model.DebugMessage);
+                                break;
+                        }
+                    });
+                return _AddTrace;
+            }
+        }
         Debug Model { get; set; }
 
         #endregion

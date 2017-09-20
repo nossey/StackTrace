@@ -35,7 +35,7 @@
 
         <StackPanel Background="Gray" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal">
             <Label VerticalAlignment="Center">Debug Area</Label>
-            <Button  Height="30" Command="{Binding AddTraceTest}" Margin="5, 5, 5, 5">Add test message</Button>
+            <Button  Height="30" Command="{Binding DebugVM.DebugAddTrace}" Margin="5, 5, 5, 5">Add test message</Button>
             <TextBox Foreground="White" Background="Black" CaretBrush="White" Width="200" Margin="5, 5, 5, 5" Height="20" Text="{Binding DebugVM.DebugMessage}"></TextBox>
             <ComboBox ItemsSource="{Binding DebugVM.DebugMessageTypes}" DisplayMemberPath="Type" SelectedIndex="{Binding DebugVM.SelectedIndex}" Width="100" Height="30" ></ComboBox>
         </StackPanel>
@@ -58,8 +58,7 @@
             <ListBox ItemsSource="{Binding TraceLogList}" Background="Black" SelectionChanged="ListBox_SelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type vm:SingleTraceViewModel}">
-                        <TextBlock Foreground="{Binding TraceColor}" Text="{Binding Trace}">
-                        </TextBlock>
+                        <TextBlock Foreground="{Binding TraceColor}" Text="{Binding Trace}"></TextBlock>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
                 <ListBox.ItemContainerStyle>

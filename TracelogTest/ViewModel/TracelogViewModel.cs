@@ -15,7 +15,6 @@ using static TracelogTest.ViewModel.ColorDefinition;
 
 namespace TracelogTest.ViewModel
 {
-
     public class SingleTraceViewModel : Livet.ViewModel
     {
         #region Declaration
@@ -120,7 +119,6 @@ namespace TracelogTest.ViewModel
         #region Private methods
         #endregion
     }
-
 
     public class VisibleTraceTypeViewModel : Livet.ViewModel
     {
@@ -232,9 +230,6 @@ namespace TracelogTest.ViewModel
         #endregion
 
         #region Fields
-
-        ViewModelCommand _AddTraceTest;
-
         #endregion
 
         #region Properties
@@ -246,22 +241,6 @@ namespace TracelogTest.ViewModel
         public SearchTextViewModel SearchTextVM { get; private set; } = new SearchTextViewModel();
 
         public DebugViewModel DebugVM { get; private set; } = new DebugViewModel(Workspace.Instance?.Debug);
-
-        public ViewModelCommand AddTraceTest
-        {
-            get
-            {
-                if (_AddTraceTest == null)
-                    _AddTraceTest = new ViewModelCommand(() =>
-                    {
-                        var trace = new SingleTrace();
-                        trace.Text = Workspace.Instance?.Debug.DebugMessage;
-                        trace.Type = Workspace.Instance.Debug.SelectedType;
-                        AddTrace(trace);
-                    });
-                return _AddTraceTest;
-            }
-        }
 
         #endregion
 
