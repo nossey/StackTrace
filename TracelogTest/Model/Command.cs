@@ -20,11 +20,8 @@ namespace TracelogTest.Model
 
         #region Public methods
 
-        public static void AddTestMessage()
+        public static void AddTrace(SingleTrace trace)
         {
-            var trace = new SingleTrace();
-            trace.Text = "test";
-            trace.Type = SingleTrace.TraceType.Warning;
             trace.Stacktrace = FormatStackTrace(Environment.StackTrace); 
             Workspace.Instance?.AddTrace(trace);
         }

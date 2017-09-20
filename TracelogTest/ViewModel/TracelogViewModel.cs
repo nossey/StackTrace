@@ -232,6 +232,9 @@ namespace TracelogTest.ViewModel
         #endregion
 
         #region Fields
+
+        ViewModelCommand _AddTraceTest;
+
         #endregion
 
         #region Properties
@@ -242,10 +245,23 @@ namespace TracelogTest.ViewModel
 
         public SearchTextViewModel SearchTextVM { get; private set; } = new SearchTextViewModel();
 
-        public ViewModelCommand AddTraceTest { get; } = new ViewModelCommand(() =>
+        public DebugViewModel DebugVM { get; private set; } = new DebugViewModel(Workspace.Instance?.Debug);
+
+        public ViewModelCommand AddTraceTest
         {
-            AddTestMessage();
-        });
+            get
+            {
+                if (_AddTraceTest == null)
+                    _AddTraceTest = new ViewModelCommand(() =>
+                    {
+                        var trace = new SingleTrace();
+                        trace.Text = Workspace.Instance?.Debug.DebugMessage;
+                        trace.Type = Workspace.Instance.Debug.SelectedType;
+                        AddTrace(trace);
+                    });
+                return _AddTraceTest;
+            }
+        }
 
         #endregion
 
@@ -265,8 +281,8 @@ namespace TracelogTest.ViewModel
                 DispatcherHelper.UIDispatcher
                 );
             CompositeDisposable.Add(VisibilityList);
-
             CompositeDisposable.Add(SearchTextVM);
+            CompositeDisposable.Add(DebugVM);
         }
 
         #endregion

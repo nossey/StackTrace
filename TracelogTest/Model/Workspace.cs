@@ -69,6 +69,9 @@ namespace TracelogTest.Model
             }
         }
 
+
+        public Debug Debug = new Debug();
+
         #endregion
 
         #region Public methods
